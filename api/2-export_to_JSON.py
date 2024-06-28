@@ -1,10 +1,10 @@
 #!/usr/bin/python3
-"""Given an Employee ID, returns information
-about his/her TODO list progress.
+"""
+Export data from an API to JSON format.
 """
 import requests
 import sys
-
+import json
 
 if __name__ == "__main__":
     try:
@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     url = f"https://jsonplaceholder.typicode.com/users/{EMPLOYEE_ID}"
     response = requests.get(url).json()
-    EMPLOYEE_NAME = response.get('name')
+    EMPLOYEE_NAME = response.get('username')
 
     url2 = f"https://jsonplaceholder.typicode.com/todos?userId={EMPLOYEE_ID}"
     response2 = requests.get(url2).json()
@@ -22,7 +22,20 @@ if __name__ == "__main__":
     TOTAL_NUMBER_OF_TASKS = len(response2)
     NUMBER_OF_DONE_TASKS = len(done_tasks)
 
-    # Print the progress
-    print(f"Employee {EMPLOYEE_NAME} is done with tasks({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
-    for task in done_tasks:
-        print(f"\t {task}")
+    tasks = []
+    for todo in response2:
+        task_data = {
+            "task": todo['title'],
+            "completed": todo['completed'],
+            "username": EMPLOYEE_NAME
+        }
+        tasks.append(task_data)
+
+    output_data = {
+        str(EMPLOYEE_ID): tasks
+    }
+
+    # Write JSON data to file
+    json_file = f"{EMPLOYEE_ID}.json"
+    with open(json_file, mode='w') as file:
+        json.dump(output_data, file)

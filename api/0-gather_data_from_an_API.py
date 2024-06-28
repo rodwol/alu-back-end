@@ -23,6 +23,7 @@ if __name__ == "__main__":
     NUMBER_OF_DONE_TASKS = len(done_tasks)
 
     # Print the progress
+    print(f"Employee Name: OK{' ' * 7}")
     print(f"Employee {EMPLOYEE_NAME} is done with tasks({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
     for task in done_tasks:
         print(f"\t {task}")

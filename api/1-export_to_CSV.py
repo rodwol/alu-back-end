@@ -5,7 +5,7 @@
 import csv
 import json
 import requests
-from sys import argv
+import sys
 
 
 if __name__ == "__main__":
@@ -55,6 +55,8 @@ if __name__ == "__main__":
     with open(csv_file, mode='w', newline='') as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL)
         for todo in response2:
-            writer.writerow([EMPLOYEE_ID, EMPLOYEE_NAME, todo.get('completed'), todo.get('title')])
-            # writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+            writer.writerow([EMPLOYEE_ID, EMPLOYEE_NAME, todo.get('completed')
+            , todo.get('title')])
+            # writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS",
+             "TASK_TITLE"])
 """

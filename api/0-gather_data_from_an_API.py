@@ -3,27 +3,41 @@
 about his/her TODO list progress.
 """
 import requests
-import sys
+from sys import argv
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     try:
-        EMPLOYEE_ID = int(sys.argv[1])
+        emp_id = int(argv[1])
     except ValueError:
         exit()
 
-    url = f"https://jsonplaceholder.typicode.com/users/{EMPLOYEE_ID}"
-    response = requests.get(url).json()
-    EMPLOYEE_NAME = response.get('name')
+    api_url = 'https://jsonplaceholder.typicode.com'
+    user_uri = '{api}/users/{id}'.format(api=api_url, id=emp_id)
+    todo_uri = '{user_uri}/todos'.format(user_uri=user_uri)
 
-    url2 = f"https://jsonplaceholder.typicode.com/todos?userId={EMPLOYEE_ID}"
-    response2 = requests.get(url2).json()
-    done_tasks = [todo['title'] for todo in response2 if todo['completed']]
-    TOTAL_NUMBER_OF_TASKS = len(response2)
-    NUMBER_OF_DONE_TASKS = len(done_tasks)
+    # User Response
+    res = requests.get(user_uri).json()
 
-    # Print the progress
-    print(f"Employee Name: OK{' ' * 7}")
-    print(f"Employee {EMPLOYEE_NAME} is done with tasks({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
-    for task in done_tasks:
-        print(f"\t {task}")
+    # Name of the employee
+    name = res.get('name')
+
+    # User TODO Response
+    res = requests.get(todo_uri).json()
+
+    # Total number of tasks, the sum of completed and non-completed tasks
+    total = len(res)
+
+    # Number of non-completed tasks
+    non_completed = sum([elem['completed'] is False for elem in res])
+
+    # Number of completed tasks
+    completed = total - non_completed
+
+    # Formatting the expected output
+    str_new = "Employee {emp_name} is done with tasks({completed}/{total}):"
+    print(str_new.format(emp_name=name, completed=completed, total=total))
+
+    # Printing completed tasks
+    for elem in res:
+        if elem.get('completed') is True:
+            print('\t', elem.get('title'))

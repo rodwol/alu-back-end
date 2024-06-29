@@ -2,9 +2,8 @@
 """
     python script that exports data in the JSON format
 """
-import json
-
 import requests
+import json
 
 
 if __name__ == "__main__":

@@ -1,44 +1,35 @@
-#!/usr/bin/python3
-"""Given an Employee ID, returns information
-about his/her TODO list progress.
-"""
 import requests
 import sys
 
+def get_employee_todo_list(employee_id):
+    url_user = f'https://jsonplaceholder.typicode.com/users/{employee_id}'
+    url_todos = f'https://jsonplaceholder.typicode.com/todos?userId={employee_id}'
+
+    user_response = requests.get(url_user)
+    todos_response = requests.get(url_todos)
+
+    if user_response.status_code != 200 or todos_response.status_code != 200:
+        print("Error fetching data")
+        return
+
+    user_data = user_response.json()
+    todos_data = todos_response.json()
+
+    employee_name = user_data['name']
+    total_tasks = len(todos_data)
+    done_tasks = [task['title'] for task in todos_data if task['completed']]
+    number_of_done_tasks = len(done_tasks)
+
+    print(f"Employee {employee_name} is done with tasks({number_of_done_tasks}/{total_tasks}):")
+    for task in done_tasks:
+        print(f"\t {task}")
+
 if __name__ == "__main__":
-    try:
-        EMPLOYEE_ID = int(sys.argv[1])
-    except (ValueError, IndexError):
-        print("First line formatting: Incorrect")
-        sys.exit()
-
-    try:
-        url = f"https://jsonplaceholder.typicode.com/users/{EMPLOYEE_ID}"
-        response = requests.get(url)
-        response.raise_for_status()
-        user_data = response.json()
-        EMPLOYEE_NAME = user_data.get('name')
-
-        url2 = f"https://jsonplaceholder.typicode.com/todos?userId={EMPLOYEE_ID}"
-        response2 = requests.get(url2)
-        response2.raise_for_status()
-        todos_data = response2.json()
-        done_tasks = [todo['title'] for todo in todos_data if todo['completed']]
-        TOTAL_NUMBER_OF_TASKS = len(todos_data)
-        NUMBER_OF_DONE_TASKS = len(done_tasks)
-
-        # Print the progress
-        print(f"Employee {EMPLOYEE_NAME} is done with tasks({NUMBER_OF_DONE_TASKS}/{TOTAL_NUMBER_OF_TASKS}):")
-        for task in done_tasks:
-            print(f"\t {task}")
-
-        print("First line formatting: OK")
-        print("Employee Name: OK")
-        print("To Do Count: OK")
-
-    except requests.RequestException as e:
-        print("First line formatting: Incorrect")
-        print("Employee Name: Incorrect")
-        print("To Do Count: Incorrect")
-        sys.exit()
-
+    if len(sys.argv) != 2:
+        print("Usage: python3 script.py <employee_id>")
+    else:
+        try:
+            employee_id = int(sys.argv[1])
+            get_employee_todo_list(employee_id)
+        except ValueError:
+            print("Please provide a valid employee ID")

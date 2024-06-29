@@ -5,22 +5,21 @@
 import csv
 import json
 import requests
-import sys
+from sys import argv
 
 
 if __name__ == "__main__":
     request_employee = requests.get(
         'https://jsonplaceholder.typicode.com/users/{}/'.format(argv[1]))
+
     user = json.loads(request_employee.text)
 
     username = user.get("username")
-
     request_todos = requests.get(
         'https://jsonplaceholder.typicode.com/users/{}/todos'.format(argv[1]))
     tasks = {}
 
     user_todos = json.loads(request_todos.text)
-
     for dictionary in user_todos:
         tasks.update({dictionary.get("title"): dictionary.get("completed")})
 

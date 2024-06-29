@@ -3,7 +3,9 @@
     python script that exports data in the JSON format
 """
 import json
+
 import requests
+
 
 if __name__ == "__main__":
     url = "https://jsonplaceholder.typicode.com/"
@@ -21,6 +23,7 @@ if __name__ == "__main__":
             } for t in requests.get(url + "todos",
                                     params={"userId": u.get("id")}).json()]
             for u in users}, jsonfile)
+
 """
 import json
 import requests
@@ -40,7 +43,8 @@ if __name__ == "__main__":
         EMPLOYEE_NAME = employee['username']
 
         # Fetch TODO list information for the current employee
-        url2 = f"https://jsonplaceholder.typicode.com/todos?userId={EMPLOYEE_ID}"
+        url2 = f"https://jsonplaceholder.typicode.com/todos?userId=
+        {EMPLOYEE_ID}"
         response2 = requests.get(url2).json()
 
         # Construct the list of tasks for the current employee

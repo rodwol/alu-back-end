@@ -3,8 +3,10 @@
     python script that exports data in the JSON format
 """
 import json
+import sys
+
 import requests
-from sys import argv
+
 
 if __name__ == "__main__":
     request_employee = requests.get(

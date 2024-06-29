@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 import requests
 import sys
 
@@ -23,6 +24,7 @@ def get_employee_todo_list(employee_id):
     print(f"Employee {employee_name} is done with tasks({number_of_done_tasks}/{total_tasks}):")
     for task in done_tasks:
         print(f"\t {task}")
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

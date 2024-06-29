@@ -33,10 +33,6 @@ if __name__ == "__main__":
         json.dump(json_to_dump, file)
 
 """
-import requests
-import sys
-import json
-
 if __name__ == "__main__":
     try:
         EMPLOYEE_ID = int(sys.argv[1])

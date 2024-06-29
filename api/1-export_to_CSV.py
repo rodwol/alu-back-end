@@ -29,12 +29,6 @@ if __name__ == "__main__":
             file_editor.writerow([argv[1], username, v, k])
 
 """
-#!/usr/bin/python3
-import csv
-import requests
-import sys
-
-
 if __name__ == "__main__":
     try:
         EMPLOYEE_ID = int(sys.argv[1])

@@ -24,10 +24,6 @@ if __name__ == "__main__":
             for u in users}, jsonfile)
 
 """
-import json
-import requests
-
-
 if __name__ == "__main__":
     # Fetch the list of all employees
     url = "https://jsonplaceholder.typicode.com/users"
